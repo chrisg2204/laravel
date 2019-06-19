@@ -16,11 +16,11 @@ use Illuminate\Http\Request;
 	// Inicio de sesión.
 	Route::post('/oauth/token', 'PassportController@login');
 
+	// Registrar usuario.
+	Route::post('/users', 'UserController@create');
+
 	// Rutas protegidas.
 	Route::group(['middleware' => 'auth:api'], function() {
-
-		// Registrar usuario.
-		Route::post('/users', 'UserController@create');
 
 		// Consultar usuario por ID
 		Route::get("/users/{id}", "UserController@find")->where('id','[1-9][0-9]*');
