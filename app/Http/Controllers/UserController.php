@@ -57,6 +57,7 @@ class UserController extends Controller
             $user->name = $body['name'];
             $user->email = $body['email'];
             $user->phone = $body['phone'];
+            $user->status = $body['status'];
             $user->password = bcrypt($body['password']);
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             $success['name'] =  $user->name;
@@ -127,6 +128,7 @@ class UserController extends Controller
 
         $findAll = User::select([DB::raw("
             users.id AS id,
+            users.name AS name,
             users.email AS email,
             users.phone AS phone,
             users.status AS status,
@@ -164,7 +166,7 @@ class UserController extends Controller
                 return response()->json([
                     "success" => true,
                     "content" => "Usuario eliminado con exito"
-                ], $this->notFound);
+                ], $this->success);
             }
         }
     }
@@ -203,6 +205,10 @@ class UserController extends Controller
 
             if (array_key_exists('name', $body)) {
                 $find->name = $body['name'];
+
+            }
+            if (array_key_exists('status', $body)) {
+                $find->status = $body['status'];
 
             }
             if (array_key_exists('email', $body)) {
